@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChurnShield AI - Customer Retention Dashboard</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="logo">
+                <span class="icon">🛡️</span>
+                <h1>ChurnShield <span class="accent">AI</span></h1>
+            </div>
+            <p class="subtitle">Telecom Customer Churn Predictor & Retention Recommendation Engine</p>
+        </header>
+
+        <main class="dashboard-grid">
+            <!-- Left Panel: Input Form -->
+            <section class="card form-card">
+                <div class="card-header">
+                    <h2>Customer Profile Inputs</h2>
+                    <p class="card-subtitle">Configure customer demographics, services, and billing details.</p>
+                </div>
+                <form id="predict-form" novalidate>
+                    <!-- Group 1: Demographics & Tenure -->
+                    <fieldset class="form-section">
+                        <legend>Demographics & Tenure</legend>
+                        <div class="grid-2col">
+                            <div class="form-group">
+                                <label for="gender">Gender</label>
+                                <select id="gender" name="gender" required>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="SeniorCitizen">Senior Citizen</label>
+                                <select id="SeniorCitizen" name="SeniorCitizen" required>
+                                    <option value="0">No</option>
+                                    <option value="1">Yes</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="grid-2col">
+                            <div class="form-group">
+                                <label for="Partner">Has Partner</label>
+                                <select id="Partner" name="Partner" required>
+                                    <option value="No">No</option>
+                                    <option value="Yes">Yes</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="Dependents">Has Dependents</label>
+                                <select id="Dependents" name="Dependents" required>
+                                    <option value="No">No</option>
+                                    <option value="Yes">Yes</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="slider-header">
+                                <label for="tenure">Tenure (Months)</label>
+                                <span id="tenure-val" class="slider-bubble">12</span>
+                            </div>
+                            <input type="range" id="tenure" name="tenure" min="0" max="72" value="12" step="1" class="slider">
+                        </div>
+                    </fieldset>
+
+                    <!-- Group 2: Subscribed Services -->
+                    <fieldset class="form-section">
+                        <legend>Services & Addons</legend>
+                        <div class="grid-2col">
+                            <div class="form-group">
+                                <label for="PhoneService">Phone Service</label>
+                                <select id="PhoneService" name="PhoneService" required>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="MultipleLines">Multiple Lines</label>
+                                <select id="MultipleLines" name="MultipleLines" required>
+                                    <option value="No">No</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No phone service">No phone service</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="InternetService">Internet Service Provider</label>
+                            <select id="InternetService" name="InternetService" required>
+                                <option value="Fiber optic">Fiber optic</option>
+                                <option value="DSL">DSL</option>
+                                <option value="No">No Internet</option>
+                            </select>
+                        </div>
+                        <div class="grid-2col internet-addons">
+                            <div class="form-group">
+                                <label for="OnlineSecurity">Online Security</label>
+                                <select id="OnlineSecurity" name="OnlineSecurity" required>
+                                    <option value="No">No</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No internet service">No internet service</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="OnlineBackup">Online Backup</label>
+                                <select id="OnlineBackup" name="OnlineBackup" required>
+                                    <option value="No">No</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No internet service">No internet service</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="grid-2col internet-addons">
+                            <div class="form-group">
+                                <label for="DeviceProtection">Device Protection</label>
+                                <select id="DeviceProtection" name="DeviceProtection" required>
+                                    <option value="No">No</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No internet service">No internet service</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="TechSupport">Tech Support</label>
+                                <select id="TechSupport" name="TechSupport" required>
+                                    <option value="No">No</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No internet service">No internet service</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="grid-2col internet-addons">
+                            <div class="form-group">
+                                <label for="StreamingTV">Streaming TV</label>
+                                <select id="StreamingTV" name="StreamingTV" required>
+                                    <option value="No">No</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No internet service">No internet service</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="StreamingMovies">Streaming Movies</label>
+                                <select id="StreamingMovies" name="StreamingMovies" required>
+                                    <option value="No">No</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No internet service">No internet service</option>
+                                </select>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <!-- Group 3: Contract & Charges -->
+                    <fieldset class="form-section">
+                        <legend>Contract & Charges</legend>
+                        <div class="grid-2col">
+                            <div class="form-group">
+                                <label for="Contract">Contract Type</label>
+                                <select id="Contract" name="Contract" required>
+                                    <option value="Month-to-month">Month-to-month</option>
+                                    <option value="One year">One year</option>
+                                    <option value="Two year">Two year</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="PaperlessBilling">Paperless Billing</label>
+                                <select id="PaperlessBilling" name="PaperlessBilling" required>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="PaymentMethod">Payment Method</label>
+                            <select id="PaymentMethod" name="PaymentMethod" required>
+                                <option value="Electronic check">Electronic check</option>
+                                <option value="Mailed check">Mailed check</option>
+                                <option value="Bank transfer (automatic)">Bank transfer (automatic)</option>
+                                <option value="Credit card (automatic)">Credit card (automatic)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <div class="slider-header">
+                                <label for="MonthlyCharges">Monthly Charges ($)</label>
+                                <span id="charges-val" class="slider-bubble">75.00</span>
+                            </div>
+                            <input type="range" id="MonthlyCharges" name="MonthlyCharges" min="18" max="120" value="75" step="0.5" class="slider">
+                        </div>
+                        <div class="form-group">
+                            <label for="TotalCharges">Estimated Total Charges ($)</label>
+                            <input type="number" id="TotalCharges" name="TotalCharges" placeholder="Auto-calculated (Monthly * Tenure)" step="0.01" class="text-input">
+                        </div>
+                    </fieldset>
+
+                    <button type="submit" id="submit-btn" class="btn btn-primary">
+                        <span class="btn-text">Predict Churn Risk</span>
+                        <div class="spinner hidden"></div>
+                    </button>
+                </form>
+            </section>
+
+            <!-- Right Panel: Results & Suggestions -->
+            <section class="card results-card">
+                <!-- Welcome/Empty State -->
+                <div id="results-placeholder" class="placeholder-state">
+                    <div class="pulse-icon">🔍</div>
+                    <h3>Awaiting Assessment</h3>
+                    <p>Configure the customer profile values in the left panel and click <strong>Predict Churn Risk</strong> to calculate their risk level and view retention strategies.</p>
+                </div>
+
+                <!-- Analysis Results (Hidden by default) -->
+                <div id="results-display" class="results-container hidden">
+                    <div class="card-header text-center">
+                        <h2>Churn Risk Assessment</h2>
+                        <div class="badge-container">
+                            <span id="risk-badge" class="badge">Low Risk</span>
+                        </div>
+                    </div>
+
+                    <!-- Risk Gauge -->
+                    <div class="gauge-wrapper">
+                        <svg class="gauge" viewBox="0 0 100 50">
+                            <!-- Background track -->
+                            <path class="gauge-track" d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke-width="8"></path>
+                            <!-- Colored indicator bar -->
+                            <path id="gauge-fill" class="gauge-fill" d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke-width="8" stroke-dasharray="125.6" stroke-dashoffset="125.6"></path>
+                        </svg>
+                        <div class="gauge-text">
+                            <span id="gauge-percentage">0%</span>
+                            <p class="label">Churn Probability</p>
+                        </div>
+                    </div>
+
+                    <!-- Risk Factors -->
+                    <div class="results-section">
+                        <h3>Key Churn Drivers</h3>
+                        <ul id="risk-factors-list" class="risk-factors-list">
+                            <!-- Populated dynamically -->
+                        </ul>
+                    </div>
+
+                    <!-- Action Plan -->
+                    <div class="results-section action-plan">
+                        <h3>Tailored Retention Strategies</h3>
+                        <div id="action-items-container" class="action-items-grid">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Javascript Client Script -->
+    <script src="/static/app.js"></script>
+</body>
+</html>
