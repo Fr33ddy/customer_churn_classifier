@@ -26,6 +26,11 @@ scaler = joblib.load(SCALER_PATH)
 with open(COLUMNS_PATH, "r") as f:
     training_columns = json.load(f)
 
+# Extract and map feature importances
+feature_importances = model.feature_importances_
+feature_importance_dict = dict(zip(training_columns, feature_importances))
+
+
 # Request schema
 class CustomerData(BaseModel):
     gender: str = Field(..., description="Gender of the customer ('Male' or 'Female')")
@@ -111,22 +116,55 @@ def predict_churn(customer: CustomerData):
         churn_prob = float(model.predict_proba(df_input)[0, 1])
         churn_prediction = int(model.predict(df_input)[0])
         
-        # Identify top risk factors dynamically
-        risk_factors = []
-        if customer.Contract == "Month-to-month":
-            risk_factors.append("Month-to-month contract (flexible but high risk)")
+        # Identify top risk factors dynamically using model importances
+        risk_factors_list = []
         if customer.tenure < 12:
-            risk_factors.append(f"Short tenure ({customer.tenure} months) - high early-churn susceptibility")
+            risk_factors_list.append({
+                "factor": f"Short tenure ({customer.tenure} months) - high early-churn susceptibility",
+                "importance": feature_importance_dict.get("tenure", 0.0)
+            })
+        if customer.Contract == "Month-to-month":
+            # Month-to-month corresponds to lack of One-year/Two-year contract columns
+            importance = max(feature_importance_dict.get("Contract_One year", 0.0), feature_importance_dict.get("Contract_Two year", 0.0))
+            risk_factors_list.append({
+                "factor": "Month-to-month contract (flexible but high risk)",
+                "importance": importance
+            })
         if customer.InternetService == "Fiber optic":
-            risk_factors.append("Fiber Optic service - high correlation with billing/speed friction")
+            risk_factors_list.append({
+                "factor": "Fiber Optic service - high correlation with billing/speed friction",
+                "importance": feature_importance_dict.get("InternetService_Fiber optic", 0.0)
+            })
         if customer.PaymentMethod == "Electronic check":
-            risk_factors.append("Electronic check payment - highest churn correlation among payment types")
+            risk_factors_list.append({
+                "factor": "Electronic check payment - highest churn correlation among payment types",
+                "importance": feature_importance_dict.get("PaymentMethod_Electronic check", 0.0)
+            })
         if customer.MonthlyCharges > 70.0:
-            risk_factors.append(f"High monthly charges (${customer.MonthlyCharges:.2f})")
+            risk_factors_list.append({
+                "factor": f"High monthly charges (${customer.MonthlyCharges:.2f})",
+                "importance": feature_importance_dict.get("MonthlyCharges", 0.0)
+            })
         if customer.OnlineSecurity == "No":
-            risk_factors.append("No Online Security addon")
+            risk_factors_list.append({
+                "factor": "No Online Security addon",
+                "importance": feature_importance_dict.get("OnlineSecurity", 0.0)
+            })
         if customer.TechSupport == "No":
-            risk_factors.append("No Tech Support addon")
+            risk_factors_list.append({
+                "factor": "No Tech Support addon",
+                "importance": feature_importance_dict.get("TechSupport", 0.0)
+            })
+        if customer.PaperlessBilling == "Yes":
+            risk_factors_list.append({
+                "factor": "Paperless billing enabled",
+                "importance": feature_importance_dict.get("PaperlessBilling", 0.0)
+            })
+
+        # Sort factors by model importance score descending
+        risk_factors_list = sorted(risk_factors_list, key=lambda x: x["importance"], reverse=True)
+        # Format for output representation
+        risk_factors = [f"{rf['factor']} (Model Importance: {rf['importance']*100:.1f}%)" for rf in risk_factors_list]
 
         return {
             "probability": churn_prob,
