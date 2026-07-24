@@ -1,6 +1,6 @@
-# ChurnShield AI - Customer Retention Dashboard
+# Churn Analyzer AI - Customer Retention Dashboard
 
-ChurnShield AI is a complete web application designed to predict telecom customer churn in real-time and provide tailored marketing & customer service retention recommendations.
+Churn Analyzer AI is a complete web application designed to predict telecom customer churn in real-time and provide tailored marketing & customer service retention recommendations.
 
 The app uses a **Random Forest Classifier** trained on Google Colab to compute accurate churn probability scores.
 
