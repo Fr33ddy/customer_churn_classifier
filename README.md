@@ -18,7 +18,7 @@ The app uses a **Random Forest Classifier** trained on Google Colab to compute a
 ## Technical Architecture
 
 * **Backend:** [FastAPI](https://fastapi.tiangolo.com/) (Python 3.10) - serves index templates and implements the machine learning prediction endpoint.
-* **Frontend:** Vanilla HTML5, premium responsive custom CSS (glassmorphism dark theme), and Vanilla JS for gauge animations and recommendation engines.
+* **Frontend:** Vanilla HTML5, premium responsive custom CSS, and Vanilla JS for gauge animations and recommendation engines.
 * **Model Pipeline:** Built using `scikit-learn`, `pandas`, and serialized with `joblib`. Preprocessing normalizes numeric variables using `StandardScaler` and applies drop-first dummy encoding.
 
 ---
