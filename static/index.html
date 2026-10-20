@@ -4,262 +4,703 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Churn Analyzer - Customer Retention Dashboard</title>
-    <!-- Google Fonts -->
+    <title>Churn Analyzer AI - Enterprise Customer Retention & Analytics</title>
+    <meta name="description"
+        content="Advanced Machine Learning Customer Churn Predictor, Retention Strategy Engine, and Portfolio Analytics Dashboard.">
+    <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Custom Stylesheet -->
     <link rel="stylesheet" href="/static/style.css">
 </head>
 
 <body>
-    <div class="app-container">
-        <!-- Header -->
+    <div class="app-layout">
+        <!-- Top Navigation & Brand Header -->
         <header class="app-header">
-            <div class="logo">
-                <h1>Churn Analyzer <span class="accent">AI</span></h1>
+            <div class="header-main">
+                <div class="brand-group">
+                    <div class="brand-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="brand-title">
+                            <h1>Churn Analyzer <span class="accent-gradient">AI</span></h1>
+                            <span class="version-tag">Enterprise Analytics</span>
+                        </div>
+                        <p class="brand-subtitle">AI-Driven Retention Diagnostics, Cohort Analytics & ROI Simulator</p>
+                    </div>
+                </div>
+
+                <!-- Live Macro Ticker -->
+                <div class="macro-ticker">
+                    <div class="ticker-item">
+                        <span class="ticker-label">Fleet Churn Benchmark</span>
+                        <span class="ticker-val">26.5%</span>
+                    </div>
+                    <div class="ticker-divider"></div>
+                    <div class="ticker-item">
+                        <span class="ticker-label">Avg Monthly Spend</span>
+                        <span class="ticker-val">$64.76</span>
+                    </div>
+                    <div class="ticker-divider"></div>
+                    <div class="ticker-item">
+                        <span class="ticker-label">Model ROC-AUC</span>
+                        <span class="ticker-val highlight">0.846</span>
+                    </div>
+                </div>
             </div>
-            <p class="subtitle">Telecom Customer Churn Predictor & Retention Recommendation Engine</p>
+
+            <!-- Tab Navigation Bar -->
+            <nav class="tab-nav">
+                <button class="tab-btn active" data-tab="tab-profiler" id="nav-profiler">
+                    <span class="tab-icon">👤</span>
+                    <span class="tab-title">Customer Risk Profiler</span>
+                </button>
+                <button class="tab-btn" data-tab="tab-cohorts" id="nav-cohorts">
+                    <span class="tab-icon">📊</span>
+                    <span class="tab-title">Portfolio & Fleet Analytics</span>
+                </button>
+                <button class="tab-btn" data-tab="tab-simulator" id="nav-simulator">
+                    <span class="tab-icon">🧪</span>
+                    <span class="tab-title">What-If Retention Sandbox</span>
+                </button>
+            </nav>
         </header>
 
-        <main class="dashboard-grid">
-            <!-- Left Panel: Input Form -->
-            <section class="card form-card">
-                <div class="card-header">
-                    <h2>Customer Profile Inputs</h2>
-                    <p class="card-subtitle">Configure customer demographics, services, and billing details.</p>
+        <!-- Main Content Area -->
+        <main class="content-container">
+
+            <!-- ========================================== -->
+            <!-- TAB 1: INDIVIDUAL CUSTOMER RISK PROFILER  -->
+            <!-- ========================================== -->
+            <section id="tab-profiler" class="tab-pane active">
+                <div class="dashboard-grid">
+                    <!-- Left Column: Inputs -->
+                    <div class="card form-card">
+                        <div class="card-header">
+                            <div>
+                                <h2>Customer Diagnostic Profile</h2>
+                                <p class="card-subtitle">Configure demographics, subscription services, and billing attributes.</p>
+                            </div>
+                        </div>
+
+                        <!-- Persona Quick-Fill Shortcuts -->
+                        <div class="persona-section">
+                            <span class="persona-label">Quick Test Personas:</span>
+                            <div class="persona-buttons">
+                                <button type="button" class="btn-persona" id="persona-high-risk"
+                                    title="Fiber, month-to-month, electronic check, 8 months">
+                                    🚨 High-Risk Fiber
+                                </button>
+                                <button type="button" class="btn-persona" id="persona-loyal"
+                                    title="2-year contract, auto-pay, security addons, 48 months">
+                                    🛡️ Loyal Family
+                                </button>
+                                <button type="button" class="btn-persona" id="persona-mid"
+                                    title="1-year contract, DSL, auto-pay, 18 months">
+                                    ⚖️ Mid-Tier Switcher
+                                </button>
+                                <button type="button" class="btn-persona" id="persona-budget"
+                                    title="No internet, month-to-month, low charges">
+                                    📱 Phone-Only Senior
+                                </button>
+                            </div>
+                        </div>
+
+                        <form id="predict-form" novalidate>
+                            <!-- Group 1: Demographics & Tenure -->
+                            <fieldset class="form-section">
+                                <legend>Demographics & Tenure</legend>
+                                <div class="grid-2col">
+                                    <div class="form-group">
+                                        <label for="gender">Gender</label>
+                                        <select id="gender" name="gender" required>
+                                            <option value="Male">Male</option>
+                                            <option value="Female">Female</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="SeniorCitizen">Senior Citizen</label>
+                                        <select id="SeniorCitizen" name="SeniorCitizen" required>
+                                            <option value="0">No</option>
+                                            <option value="1">Yes</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="grid-2col">
+                                    <div class="form-group">
+                                        <label for="Partner">Has Partner</label>
+                                        <select id="Partner" name="Partner" required>
+                                            <option value="No">No</option>
+                                            <option value="Yes">Yes</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Dependents">Has Dependents</label>
+                                        <select id="Dependents" name="Dependents" required>
+                                            <option value="No">No</option>
+                                            <option value="Yes">Yes</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="slider-header">
+                                        <label for="tenure">Tenure</label>
+                                        <span id="tenure-val" class="slider-bubble">12 Months (1.0 Yr)</span>
+                                    </div>
+                                    <input type="range" id="tenure" name="tenure" min="0" max="72" value="12" step="1"
+                                        class="slider">
+                                </div>
+                            </fieldset>
+
+                            <!-- Group 2: Subscribed Services -->
+                            <fieldset class="form-section">
+                                <legend>Services & Add-ons</legend>
+                                <div class="grid-2col">
+                                    <div class="form-group">
+                                        <label for="PhoneService">Phone Service</label>
+                                        <select id="PhoneService" name="PhoneService" required>
+                                            <option value="Yes">Yes</option>
+                                            <option value="No">No</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="MultipleLines">Multiple Lines</label>
+                                        <select id="MultipleLines" name="MultipleLines" required>
+                                            <option value="No">No</option>
+                                            <option value="Yes">Yes</option>
+                                            <option value="No phone service">No phone service</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="InternetService">Internet Provider</label>
+                                    <select id="InternetService" name="InternetService" required>
+                                        <option value="Fiber optic">Fiber optic</option>
+                                        <option value="DSL">DSL</option>
+                                        <option value="No">No Internet</option>
+                                    </select>
+                                </div>
+                                <div class="grid-2col internet-addons">
+                                    <div class="form-group">
+                                        <label for="OnlineSecurity">Online Security</label>
+                                        <select id="OnlineSecurity" name="OnlineSecurity" required>
+                                            <option value="No">No</option>
+                                            <option value="Yes">Yes</option>
+                                            <option value="No internet service">No internet service</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="OnlineBackup">Online Backup</label>
+                                        <select id="OnlineBackup" name="OnlineBackup" required>
+                                            <option value="No">No</option>
+                                            <option value="Yes">Yes</option>
+                                            <option value="No internet service">No internet service</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="grid-2col internet-addons">
+                                    <div class="form-group">
+                                        <label for="DeviceProtection">Device Protection</label>
+                                        <select id="DeviceProtection" name="DeviceProtection" required>
+                                            <option value="No">No</option>
+                                            <option value="Yes">Yes</option>
+                                            <option value="No internet service">No internet service</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="TechSupport">Tech Support</label>
+                                        <select id="TechSupport" name="TechSupport" required>
+                                            <option value="No">No</option>
+                                            <option value="Yes">Yes</option>
+                                            <option value="No internet service">No internet service</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="grid-2col internet-addons">
+                                    <div class="form-group">
+                                        <label for="StreamingTV">Streaming TV</label>
+                                        <select id="StreamingTV" name="StreamingTV" required>
+                                            <option value="No">No</option>
+                                            <option value="Yes">Yes</option>
+                                            <option value="No internet service">No internet service</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="StreamingMovies">Streaming Movies</label>
+                                        <select id="StreamingMovies" name="StreamingMovies" required>
+                                            <option value="No">No</option>
+                                            <option value="Yes">Yes</option>
+                                            <option value="No internet service">No internet service</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <!-- Group 3: Contract & Charges -->
+                            <fieldset class="form-section">
+                                <legend>Contract & Billing</legend>
+                                <div class="grid-2col">
+                                    <div class="form-group">
+                                        <label for="Contract">Contract Term</label>
+                                        <select id="Contract" name="Contract" required>
+                                            <option value="Month-to-month">Month-to-month</option>
+                                            <option value="One year">One year</option>
+                                            <option value="Two year">Two year</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="PaperlessBilling">Paperless Billing</label>
+                                        <select id="PaperlessBilling" name="PaperlessBilling" required>
+                                            <option value="Yes">Yes</option>
+                                            <option value="No">No</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="PaymentMethod">Payment Method</label>
+                                    <select id="PaymentMethod" name="PaymentMethod" required>
+                                        <option value="Electronic check">Electronic check</option>
+                                        <option value="Mailed check">Mailed check</option>
+                                        <option value="Bank transfer (automatic)">Bank transfer (automatic)</option>
+                                        <option value="Credit card (automatic)">Credit card (automatic)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <div class="slider-header">
+                                        <label for="MonthlyCharges">Monthly Charges</label>
+                                        <span id="charges-val" class="slider-bubble">$75.00</span>
+                                    </div>
+                                    <input type="range" id="MonthlyCharges" name="MonthlyCharges" min="18" max="120"
+                                        value="75" step="0.5" class="slider">
+                                </div>
+                                <div class="form-group">
+                                    <label for="TotalCharges">Estimated Total Charges ($)</label>
+                                    <input type="number" id="TotalCharges" name="TotalCharges"
+                                        placeholder="Auto-calculated (Monthly * Tenure)" step="0.01" class="text-input">
+                                </div>
+                            </fieldset>
+
+                            <button type="submit" id="submit-btn" class="btn btn-primary">
+                                <span class="btn-text">Run Deep Churn Analytics</span>
+                                <div class="spinner hidden"></div>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Right Column: Analytics Results -->
+                    <div class="card results-card">
+                        <!-- Placeholder State -->
+                        <div id="results-placeholder" class="placeholder-state">
+                            <div class="pulse-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                                </svg>
+                            </div>
+                            <h3>Awaiting Customer Analysis</h3>
+                            <p>Select a quick persona above or tune the inputs on the left, then click <strong>Run Deep Churn Analytics</strong> to calculate real-time risk scores, financial exposure, health indices, and strategic retention playbooks.</p>
+                            <button type="button" class="btn btn-secondary mt-3" id="quick-analyze-btn">
+                                ⚡ Run Demo Analysis
+                            </button>
+                        </div>
+
+                        <!-- Results Container (Hidden initially) -->
+                        <div id="results-display" class="results-container hidden">
+                            <!-- Header with Risk Badge -->
+                            <div class="results-top-header">
+                                <div>
+                                    <span class="section-eyebrow">Risk Assessment</span>
+                                    <h3 class="results-title">Customer Retention Diagnostics</h3>
+                                </div>
+                                <div class="badge-container">
+                                    <span id="risk-badge" class="badge high">High Risk</span>
+                                </div>
+                            </div>
+
+                            <!-- Executive 4-Metric KPI Ribbon -->
+                            <div class="kpi-ribbon-grid">
+                                <!-- KPI 1: Churn Probability Gauge -->
+                                <div class="kpi-card gauge-card">
+                                    <div class="gauge-wrapper">
+                                        <svg class="gauge" viewBox="0 0 100 50">
+                                            <path class="gauge-track" d="M 10 50 A 40 40 0 0 1 90 50" fill="none"
+                                                stroke-width="8"></path>
+                                            <path id="gauge-fill" class="gauge-fill" d="M 10 50 A 40 40 0 0 1 90 50"
+                                                fill="none" stroke-width="8" stroke-dasharray="125.6"
+                                                stroke-dashoffset="125.6"></path>
+                                        </svg>
+                                        <div class="gauge-text">
+                                            <span id="gauge-percentage">0%</span>
+                                            <p class="label">Churn Risk</p>
+                                        </div>
+                                    </div>
+                                    <div class="kpi-footer-note" id="gauge-status-note">Above Fleet Avg (26.5%)</div>
+                                </div>
+
+                                <!-- KPI 2: Customer Health Index -->
+                                <div class="kpi-card">
+                                    <span class="kpi-label">Customer Health Score</span>
+                                    <div class="health-score-display">
+                                        <span id="health-score-val" class="kpi-large-number">0</span>
+                                        <span class="kpi-max">/100</span>
+                                    </div>
+                                    <div class="progress-bar-bg">
+                                        <div id="health-score-bar" class="progress-bar-fill" style="width: 0%;"></div>
+                                    </div>
+                                    <span id="health-status-text" class="kpi-subtext">Evaluating...</span>
+                                </div>
+
+                                <!-- KPI 3: Revenue at Risk -->
+                                <div class="kpi-card">
+                                    <span class="kpi-label">Annual Revenue at Risk</span>
+                                    <div class="kpi-large-number text-danger" id="annual-risk-val">$0.00</div>
+                                    <div class="kpi-subtext">
+                                        Total Spend: <span id="annual-rev-total">$0/yr</span>
+                                    </div>
+                                    <div class="kpi-pill-badge" id="risk-severity-pill">Critical Exposure</div>
+                                </div>
+
+                                <!-- KPI 4: Lifetime Value & Lifespan -->
+                                <div class="kpi-card">
+                                    <span class="kpi-label">Projected Lifetime Value</span>
+                                    <div class="kpi-large-number text-success" id="clv-val">$0.00</div>
+                                    <div class="kpi-subtext">
+                                        Expected Lifespan: <span id="lifespan-val" class="font-bold">0</span> Months
+                                    </div>
+                                    <div class="kpi-pill-badge pill-neutral">Tenure Trajectory</div>
+                                </div>
+                            </div>
+
+                            <!-- Peer / Fleet Benchmark Comparison Card -->
+                            <div class="benchmark-card">
+                                <div class="benchmark-header">
+                                    <h4>Cohort Benchmark Variance (vs Fleet Average)</h4>
+                                </div>
+                                <div class="benchmark-grid">
+                                    <div class="benchmark-item">
+                                        <span class="bm-label">Risk vs Baseline</span>
+                                        <span class="bm-val" id="bm-churn-delta">+0.0%</span>
+                                        <span class="bm-note">Benchmark: 26.5%</span>
+                                    </div>
+                                    <div class="benchmark-item">
+                                        <span class="bm-label">Monthly Spend Variance</span>
+                                        <span class="bm-val" id="bm-monthly-delta">+$0.00</span>
+                                        <span class="bm-note">Fleet Avg: $64.76</span>
+                                    </div>
+                                    <div class="benchmark-item">
+                                        <span class="bm-label">Tenure Longevity</span>
+                                        <span class="bm-val" id="bm-tenure-delta">0 Mo</span>
+                                        <span class="bm-note">Fleet Median: 29 Mo</span>
+                                    </div>
+                                    <div class="benchmark-item">
+                                        <span class="bm-label">Ecosystem Breadth</span>
+                                        <span class="bm-val" id="bm-addons-val">0 / 6</span>
+                                        <span class="bm-note">Active Add-ons</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Visual Diagnostic Charts Grid -->
+                            <div class="charts-2col">
+                                <!-- Feature Drivers Horizontal Bar Chart -->
+                                <div class="chart-box">
+                                    <div class="chart-header">
+                                        <h4>Model Feature Contributions</h4>
+                                        <span class="chart-subtitle">Catalysts (Red) vs Protective Anchors (Green)</span>
+                                    </div>
+                                    <div class="chart-canvas-wrapper">
+                                        <canvas id="driversChart"></canvas>
+                                    </div>
+                                </div>
+
+                                <!-- 5-Pillar Health Radar Chart -->
+                                <div class="chart-box">
+                                    <div class="chart-header">
+                                        <h4>5-Pillar Retention Radar</h4>
+                                        <span class="chart-subtitle">Customer Health vs Optimal Benchmark (100)</span>
+                                    </div>
+                                    <div class="chart-canvas-wrapper">
+                                        <canvas id="radarChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Actionable Retention Playbook Cards -->
+                            <div class="results-section">
+                                <div class="section-title-wrap">
+                                    <h4>Prioritized Retention Playbook</h4>
+                                    <span class="section-sub">Data-driven counter-interventions ranked by projected ROI</span>
+                                </div>
+                                <div id="action-items-container" class="action-items-grid">
+                                    <!-- Populated dynamically -->
+                                </div>
+                            </div>
+
+                            <!-- Bottom Action Utilities -->
+                            <div class="results-actions">
+                                <button type="button" class="btn btn-outline" id="transfer-to-sim-btn">
+                                    🧪 Simulate Interventions in Sandbox
+                                </button>
+                                <button type="button" class="btn btn-outline" id="print-assessment-btn">
+                                    🖨️ Export Assessment Sheet
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <form id="predict-form" novalidate>
-                    <!-- Group 1: Demographics & Tenure -->
-                    <fieldset class="form-section">
-                        <legend>Demographics & Tenure</legend>
-                        <div class="grid-2col">
-                            <div class="form-group">
-                                <label for="gender">Gender</label>
-                                <select id="gender" name="gender" required>
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="SeniorCitizen">Senior Citizen</label>
-                                <select id="SeniorCitizen" name="SeniorCitizen" required>
-                                    <option value="0">No</option>
-                                    <option value="1">Yes</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="grid-2col">
-                            <div class="form-group">
-                                <label for="Partner">Has Partner</label>
-                                <select id="Partner" name="Partner" required>
-                                    <option value="No">No</option>
-                                    <option value="Yes">Yes</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="Dependents">Has Dependents</label>
-                                <select id="Dependents" name="Dependents" required>
-                                    <option value="No">No</option>
-                                    <option value="Yes">Yes</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="slider-header">
-                                <label for="tenure">Tenure (Months)</label>
-                                <span id="tenure-val" class="slider-bubble">12</span>
-                            </div>
-                            <input type="range" id="tenure" name="tenure" min="0" max="72" value="12" step="1"
-                                class="slider">
-                        </div>
-                    </fieldset>
-
-                    <!-- Group 2: Subscribed Services -->
-                    <fieldset class="form-section">
-                        <legend>Services & Addons</legend>
-                        <div class="grid-2col">
-                            <div class="form-group">
-                                <label for="PhoneService">Phone Service</label>
-                                <select id="PhoneService" name="PhoneService" required>
-                                    <option value="Yes">Yes</option>
-                                    <option value="No">No</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="MultipleLines">Multiple Lines</label>
-                                <select id="MultipleLines" name="MultipleLines" required>
-                                    <option value="No">No</option>
-                                    <option value="Yes">Yes</option>
-                                    <option value="No phone service">No phone service</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="InternetService">Internet Service Provider</label>
-                            <select id="InternetService" name="InternetService" required>
-                                <option value="Fiber optic">Fiber optic</option>
-                                <option value="DSL">DSL</option>
-                                <option value="No">No Internet</option>
-                            </select>
-                        </div>
-                        <div class="grid-2col internet-addons">
-                            <div class="form-group">
-                                <label for="OnlineSecurity">Online Security</label>
-                                <select id="OnlineSecurity" name="OnlineSecurity" required>
-                                    <option value="No">No</option>
-                                    <option value="Yes">Yes</option>
-                                    <option value="No internet service">No internet service</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="OnlineBackup">Online Backup</label>
-                                <select id="OnlineBackup" name="OnlineBackup" required>
-                                    <option value="No">No</option>
-                                    <option value="Yes">Yes</option>
-                                    <option value="No internet service">No internet service</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="grid-2col internet-addons">
-                            <div class="form-group">
-                                <label for="DeviceProtection">Device Protection</label>
-                                <select id="DeviceProtection" name="DeviceProtection" required>
-                                    <option value="No">No</option>
-                                    <option value="Yes">Yes</option>
-                                    <option value="No internet service">No internet service</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="TechSupport">Tech Support</label>
-                                <select id="TechSupport" name="TechSupport" required>
-                                    <option value="No">No</option>
-                                    <option value="Yes">Yes</option>
-                                    <option value="No internet service">No internet service</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="grid-2col internet-addons">
-                            <div class="form-group">
-                                <label for="StreamingTV">Streaming TV</label>
-                                <select id="StreamingTV" name="StreamingTV" required>
-                                    <option value="No">No</option>
-                                    <option value="Yes">Yes</option>
-                                    <option value="No internet service">No internet service</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="StreamingMovies">Streaming Movies</label>
-                                <select id="StreamingMovies" name="StreamingMovies" required>
-                                    <option value="No">No</option>
-                                    <option value="Yes">Yes</option>
-                                    <option value="No internet service">No internet service</option>
-                                </select>
-                            </div>
-                        </div>
-                    </fieldset>
-
-                    <!-- Group 3: Contract & Charges -->
-                    <fieldset class="form-section">
-                        <legend>Contract & Charges</legend>
-                        <div class="grid-2col">
-                            <div class="form-group">
-                                <label for="Contract">Contract Type</label>
-                                <select id="Contract" name="Contract" required>
-                                    <option value="Month-to-month">Month-to-month</option>
-                                    <option value="One year">One year</option>
-                                    <option value="Two year">Two year</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="PaperlessBilling">Paperless Billing</label>
-                                <select id="PaperlessBilling" name="PaperlessBilling" required>
-                                    <option value="Yes">Yes</option>
-                                    <option value="No">No</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="PaymentMethod">Payment Method</label>
-                            <select id="PaymentMethod" name="PaymentMethod" required>
-                                <option value="Electronic check">Electronic check</option>
-                                <option value="Mailed check">Mailed check</option>
-                                <option value="Bank transfer (automatic)">Bank transfer (automatic)</option>
-                                <option value="Credit card (automatic)">Credit card (automatic)</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <div class="slider-header">
-                                <label for="MonthlyCharges">Monthly Charges ($)</label>
-                                <span id="charges-val" class="slider-bubble">75.00</span>
-                            </div>
-                            <input type="range" id="MonthlyCharges" name="MonthlyCharges" min="18" max="120" value="75"
-                                step="0.5" class="slider">
-                        </div>
-                        <div class="form-group">
-                            <label for="TotalCharges">Estimated Total Charges ($)</label>
-                            <input type="number" id="TotalCharges" name="TotalCharges"
-                                placeholder="Auto-calculated (Monthly * Tenure)" step="0.01" class="text-input">
-                        </div>
-                    </fieldset>
-
-                    <button type="submit" id="submit-btn" class="btn btn-primary">
-                        <span class="btn-text">Predict Churn Risk</span>
-                        <div class="spinner hidden"></div>
-                    </button>
-                </form>
             </section>
 
-            <!-- Right Panel: Results & Suggestions -->
-            <section class="card results-card">
-                <!-- Welcome/Empty State -->
-                <div id="results-placeholder" class="placeholder-state">
-                    <div class="pulse-icon">🔍</div>
-                    <h3>Awaiting Assessment</h3>
-                    <p>Configure the customer profile values in the left panel and click <strong>Predict Churn
-                            Risk</strong> to calculate their risk level and view retention strategies.</p>
+            <!-- ========================================== -->
+            <!-- TAB 2: PORTFOLIO & FLEET COHORT ANALYTICS  -->
+            <!-- ========================================== -->
+            <section id="tab-cohorts" class="tab-pane">
+                <div class="portfolio-container">
+                    <!-- Portfolio Header Banner -->
+                    <div class="portfolio-header">
+                        <div>
+                            <h2>Fleet-Wide Churn & Cohort Intelligence</h2>
+                            <p class="card-subtitle">Macro insights, segment vulnerabilities, and empirical churn distributions from the 7,043-account customer dataset.</p>
+                        </div>
+                        <div class="portfolio-tag">
+                            <span>Population Analysis</span>
+                        </div>
+                    </div>
+
+                    <!-- Portfolio KPI Ribbon -->
+                    <div class="portfolio-kpi-grid">
+                        <div class="kpi-card">
+                            <span class="kpi-label">Total Accounts Analyzed</span>
+                            <div class="kpi-large-number">7,043</div>
+                            <span class="kpi-subtext">Verified Telecommunication Cohort</span>
+                        </div>
+                        <div class="kpi-card">
+                            <span class="kpi-label">Population Churn Rate</span>
+                            <div class="kpi-large-number text-danger">26.54%</div>
+                            <span class="kpi-subtext">1,869 churned accounts</span>
+                        </div>
+                        <div class="kpi-card">
+                            <span class="kpi-label">Annual Revenue at Risk</span>
+                            <div class="kpi-large-number text-warning">$1,452,600</div>
+                            <span class="kpi-subtext">Total fleet annual ARR exposed</span>
+                        </div>
+                        <div class="kpi-card">
+                            <span class="kpi-label">Median Account Tenure</span>
+                            <div class="kpi-large-number">29.0 <span class="unit">Mos</span></div>
+                            <span class="kpi-subtext">Avg monthly billing: $64.76</span>
+                        </div>
+                    </div>
+
+                    <!-- 4 Macro Distribution Charts in 2x2 Grid -->
+                    <div class="portfolio-charts-grid">
+                        <!-- Chart 1: Contract Churn -->
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h3>Churn Rate by Contract Type</h3>
+                                <span class="chart-subtitle">Month-to-month contracts drive 42.7% churn vs 2.8% on 2-year</span>
+                            </div>
+                            <div class="chart-canvas-wrapper tall">
+                                <canvas id="cohortContractChart"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Chart 2: Internet Service Provider -->
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h3>Churn Rate by Internet Technology</h3>
+                                <span class="chart-subtitle">Fiber Optic accounts show 41.9% churn due to price-to-service friction</span>
+                            </div>
+                            <div class="chart-canvas-wrapper tall">
+                                <canvas id="cohortInternetChart"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Chart 3: Tenure Retention Curve -->
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h3>Customer Lifecycle Churn Curve</h3>
+                                <span class="chart-subtitle">Early stage (0-12m) churn sits at 47.7%, falling to 9.5% for >4 years</span>
+                            </div>
+                            <div class="chart-canvas-wrapper tall">
+                                <canvas id="cohortTenureChart"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Chart 4: Payment Friction Distribution -->
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h3>Payment Method Friction Matrix</h3>
+                                <span class="chart-subtitle">Electronic Check drives 45.3% churn vs ~15% for automated payments</span>
+                            </div>
+                            <div class="chart-canvas-wrapper tall">
+                                <canvas id="cohortPaymentChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Global Feature Importance Ranking -->
+                    <div class="chart-card full-width mt-4">
+                        <div class="chart-header">
+                            <h3>Global Random Forest Feature Importance Ranking</h3>
+                            <span class="chart-subtitle">Empirical weights calculated across all decision trees in the ensemble model</span>
+                        </div>
+                        <div class="chart-canvas-wrapper tall">
+                            <canvas id="globalImportanceChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Executive Takeaways Grid -->
+                    <div class="takeaways-grid mt-4">
+                        <div class="takeaway-card">
+                            <div class="takeaway-icon">⚠️</div>
+                            <div class="takeaway-body">
+                                <h4>Month-to-Month Exposure</h4>
+                                <p>Customers without annual commitments churn at <strong>15x the rate</strong> of 2-year contract holders. Annual contract migration incentives should be prioritized.</p>
+                            </div>
+                        </div>
+                        <div class="takeaway-card">
+                            <div class="takeaway-icon">⚡</div>
+                            <div class="takeaway-body">
+                                <h4>Fiber Optic Disconnect</h4>
+                                <p>Fiber customers have higher average bills ($85+) and churn at <strong>41.9%</strong>. Bundling Tech Support and proactive speed audits mitigates this churn driver.</p>
+                            </div>
+                        </div>
+                        <div class="takeaway-card">
+                            <div class="takeaway-icon">💳</div>
+                            <div class="takeaway-body">
+                                <h4>Electronic Check Friction</h4>
+                                <p>Electronic Check is the single highest-friction payment method. Converting users to automated Credit Card/ACH billing cuts churn by nearly <strong>65%</strong>.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+            </section>
 
-                <!-- Analysis Results (Hidden by default) -->
-                <div id="results-display" class="results-container hidden">
-                    <div class="card-header text-center">
-                        <h2>Churn Risk Assessment</h2>
-                        <div class="badge-container">
-                            <span id="risk-badge" class="badge">Low Risk</span>
+            <!-- ========================================== -->
+            <!-- TAB 3: WHAT-IF RETENTION ROI SIMULATOR    -->
+            <!-- ========================================== -->
+            <section id="tab-simulator" class="tab-pane">
+                <div class="simulator-container">
+                    <div class="simulator-header">
+                        <div>
+                            <h2>Interactive Retention ROI Sandbox</h2>
+                            <p class="card-subtitle">Simulate targeted customer counter-measures in real-time to compute risk reduction, annual loss prevented, and net retention ROI.</p>
                         </div>
                     </div>
 
-                    <!-- Risk Gauge -->
-                    <div class="gauge-wrapper">
-                        <svg class="gauge" viewBox="0 0 100 50">
-                            <!-- Background track -->
-                            <path class="gauge-track" d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke-width="8">
-                            </path>
-                            <!-- Colored indicator bar -->
-                            <path id="gauge-fill" class="gauge-fill" d="M 10 50 A 40 40 0 0 1 90 50" fill="none"
-                                stroke-width="8" stroke-dasharray="125.6" stroke-dashoffset="125.6"></path>
-                        </svg>
-                        <div class="gauge-text">
-                            <span id="gauge-percentage">0%</span>
-                            <p class="label">Churn Probability</p>
+                    <div class="simulator-layout">
+                        <!-- Left: Countermeasure Controls -->
+                        <div class="card sim-controls-card">
+                            <div class="card-header">
+                                <h3>Retention Levers & Interventions</h3>
+                                <p class="card-subtitle">Adjust offers and service adjustments to evaluate impact.</p>
+                            </div>
+
+                            <form id="sim-form">
+                                <div class="sim-group">
+                                    <label for="sim-contract">Contract Term Upgrade</label>
+                                    <select id="sim-contract" class="sim-input">
+                                        <option value="">Keep Current Contract</option>
+                                        <option value="One year">Upgrade to 1-Year Contract (-15% bill credit)</option>
+                                        <option value="Two year">Upgrade to 2-Year Contract (-20% rate freeze)</option>
+                                    </select>
+                                </div>
+
+                                <div class="sim-group">
+                                    <label for="sim-payment">Automated Billing Migration</label>
+                                    <select id="sim-payment" class="sim-input">
+                                        <option value="">Keep Current Payment Method</option>
+                                        <option value="Credit card (automatic)">Migrate to Credit Card Auto-Pay</option>
+                                        <option value="Bank transfer (automatic)">Migrate to Bank Transfer Auto-Pay</option>
+                                    </select>
+                                </div>
+
+                                <div class="sim-group-toggles">
+                                    <label class="toggle-control">
+                                        <input type="checkbox" id="sim-tech-support">
+                                        <span class="toggle-slider"></span>
+                                        <span class="toggle-label">Gift 90-Day Free Tech Support</span>
+                                    </label>
+                                    <label class="toggle-control">
+                                        <input type="checkbox" id="sim-online-security">
+                                        <span class="toggle-slider"></span>
+                                        <span class="toggle-label">Gift 90-Day Free Online Security</span>
+                                    </label>
+                                </div>
+
+                                <div class="sim-group">
+                                    <div class="slider-header">
+                                        <label for="sim-discount">Promotional Monthly Bill Credit</label>
+                                        <span id="sim-discount-val" class="slider-bubble">$0.00 / mo</span>
+                                    </div>
+                                    <input type="range" id="sim-discount" min="0" max="30" value="0" step="2.5" class="slider">
+                                    <span class="input-helper">Direct discount deducted from customer monthly charges</span>
+                                </div>
+
+                                <button type="button" id="run-sim-btn" class="btn btn-primary mt-3">
+                                    ⚡ Recalculate Scenario Impact
+                                </button>
+                            </form>
                         </div>
-                    </div>
 
-                    <!-- Risk Factors -->
-                    <div class="results-section">
-                        <h3>Key Churn Drivers</h3>
-                        <ul id="risk-factors-list" class="risk-factors-list">
-                            <!-- Populated dynamically -->
-                        </ul>
-                    </div>
+                        <!-- Right: Live Simulation Outcomes -->
+                        <div class="card sim-results-card">
+                            <div class="card-header">
+                                <h3>Simulated Intervention Outcomes</h3>
+                                <p class="card-subtitle">Predicted delta against customer baseline.</p>
+                            </div>
 
-                    <!-- Action Plan -->
-                    <div class="results-section action-plan">
-                        <h3>Tailored Retention Strategies</h3>
-                        <div id="action-items-container" class="action-items-grid">
-                            <!-- Populated dynamically -->
+                            <!-- Comparative KPIs -->
+                            <div class="sim-kpi-grid">
+                                <div class="kpi-card">
+                                    <span class="kpi-label">Baseline Churn Risk</span>
+                                    <div class="kpi-large-number" id="sim-base-risk">0%</div>
+                                    <span class="kpi-subtext">Current probability</span>
+                                </div>
+                                <div class="kpi-card">
+                                    <span class="kpi-label">Simulated Churn Risk</span>
+                                    <div class="kpi-large-number text-success" id="sim-new-risk">0%</div>
+                                    <span class="kpi-subtext" id="sim-delta-badge">0% reduction</span>
+                                </div>
+                                <div class="kpi-card">
+                                    <span class="kpi-label">Annual Revenue Saved</span>
+                                    <div class="kpi-large-number text-success" id="sim-revenue-saved">$0.00</div>
+                                    <span class="kpi-subtext">Gross loss prevented</span>
+                                </div>
+                                <div class="kpi-card">
+                                    <span class="kpi-label">Net Retention Benefit</span>
+                                    <div class="kpi-large-number text-primary-highlight" id="sim-net-roi">$0.00</div>
+                                    <span class="kpi-subtext" id="sim-cost-note">Cost: $0.00/yr</span>
+                                </div>
+                            </div>
+
+                            <!-- Comparative Risk Bar Chart -->
+                            <div class="chart-box mt-3">
+                                <div class="chart-header">
+                                    <h4>Churn Risk Comparison</h4>
+                                    <span class="chart-subtitle">Original Risk vs Simulated Offer Outcome</span>
+                                </div>
+                                <div class="chart-canvas-wrapper short">
+                                    <canvas id="simComparisonChart"></canvas>
+                                </div>
+                            </div>
+
+                            <!-- Recommendation verdict -->
+                            <div class="sim-verdict-box mt-3" id="sim-verdict">
+                                <div class="verdict-icon">💡</div>
+                                <div class="verdict-content">
+                                    <h4 id="verdict-title">Configure Levers to Run Simulation</h4>
+                                    <p id="verdict-desc">Test upgrading contract terms or enrolling in automated payments to observe real-time risk reduction and estimated financial ROI.</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

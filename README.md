@@ -8,18 +8,24 @@ The app uses a **Random Forest Classifier** trained on Google Colab to compute a
 
 ## Key Features
 
-1. **Interactive Customer Profiler:** Real-time form sliders and toggles with automatic charge estimating and reactive input controls (e.g. graying out internet add-ons if a customer does not subscribe to internet service).
-2. **Dynamic Risk Gauge:** Visual circular SVG gauge displaying risk percentage with matching threat level color tags (Low, Medium, High).
-3. **Model-Driven Driver Diagnostics:** Transparent audit log dynamically ranking the specific customer attributes driving the churn score, calculated directly from the model's feature importances.
-4. **Tailored Retention Cards:** Actionable business strategies dynamically recommended depending on risk indicators (e.g. contract migration incentives, auto-pay bonuses, support trials).
+1. **Enterprise Customer Risk Profiler:**
+   - Real-time prediction engine with automatic Total Charges calculation and dynamic dependencies.
+   - 1-Click Persona Quick-Fill presets (🚨 High-Risk Fiber, 🛡️ Loyal Family, ⚖️ Mid-Tier Switcher, 📱 Phone-Only Senior).
+   - Semi-circular animated Churn Risk Gauge with color-coded risk tier badges.
+   - 4-Metric Executive KPI Ribbon: Churn Probability, Customer Health Score (0-100), Annual Revenue at Risk ($/yr), and Projected Lifetime Value (CLV).
+   - Peer & Fleet Benchmark variance cards comparing the account against the 26.5% fleet churn average, $64.76 spend, and 29-month median tenure.
+   - **Feature Drivers Chart (Chart.js):** Horizontal bar chart separating positive churn catalysts from protective anchors.
+   - **5-Pillar Retention Radar (Chart.js):** Evaluates Contract Stability, Payment Safety, Ecosystem Depth, Tenure Maturity, and Price Comfort against optimal benchmarks.
+   - Prioritized Retention Playbook with estimated risk drop and dollar savings.
 
----
+2. **Portfolio & Fleet Analytics Dashboard:**
+   - Empirical macro distributions across the 7,043-account dataset.
+   - Interactive charts: Churn Rate by Contract Type, Churn by Internet Technology, Customer Lifecycle Churn Curve, and Payment Method Friction Matrix.
+   - Global Random Forest Feature Importance Ranking chart.
 
-## Technical Architecture
-
-* **Backend:** [FastAPI](https://fastapi.tiangolo.com/) (Python 3.10) - serves index templates and implements the machine learning prediction endpoint.
-* **Frontend:** Vanilla HTML5, premium responsive custom CSS, and Vanilla JS for gauge animations and recommendation engines.
-* **Model Pipeline:** Built using `scikit-learn`, `pandas`, and serialized with `joblib`. Preprocessing normalizes numeric variables using `StandardScaler` and applies drop-first dummy encoding.
+3. **What-If Retention ROI Sandbox:**
+   - Interactive simulation sandbox allowing retention teams to test offers (contract upgrades, auto-pay migration, free security & tech support trials, bill credit discounts).
+   - Instant calculation of Simulated Risk Delta, Annual Gross Loss Prevented, and Net Retention ROI.
 
 ---
 
