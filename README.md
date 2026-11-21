@@ -10,7 +10,7 @@ The app uses a **Random Forest Classifier** trained on Google Colab to compute a
 
 1. **Enterprise Customer Risk Profiler:**
    - Real-time prediction engine with automatic Total Charges calculation and dynamic dependencies.
-   - 1-Click Persona Quick-Fill presets (🚨 High-Risk Fiber, 🛡️ Loyal Family, ⚖️ Mid-Tier Switcher, 📱 Phone-Only Senior).
+   - 1-Click Persona Quick-Fill presets ( High-Risk Fiber,  Loyal Family,  Mid-Tier Switcher,  Phone-Only Senior).
    - Semi-circular animated Churn Risk Gauge with color-coded risk tier badges.
    - 4-Metric Executive KPI Ribbon: Churn Probability, Customer Health Score (0-100), Annual Revenue at Risk ($/yr), and Projected Lifetime Value (CLV).
    - Peer & Fleet Benchmark variance cards comparing the account against the 26.5% fleet churn average, $64.76 spend, and 29-month median tenure.
